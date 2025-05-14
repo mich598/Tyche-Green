@@ -2,9 +2,9 @@
 CSSE4011 Project
 
 # Team Members
-Will
-Nelson
-Michael
+William Gilmore,
+Nelson Yeh,
+Michael Chen
 
 # Equipment List
 ESP32 Camera
