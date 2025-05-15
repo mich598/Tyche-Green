@@ -29,9 +29,9 @@ This project implements a real-time, table-side assistant for the game of Blackj
 
 A Zephyr Command Line Interface is implemented to signal the system when a new round is dealt or cards are reshuffled.
 
-"<tyche n>" signals the new round has started. This resets the current round scores and recommended move.
+"tyche n" signals the new round has started. This resets the current round scores and recommended move.
 
-"<tyche r>" signals cards have been reshuffled. This resets the card count as well current round scores and recommended move.
+"tyche r" signals cards have been reshuffled. This resets the card count as well current round scores and recommended move.
 
 ## Wireless Network Communications
 ![image](https://github.com/user-attachments/assets/e3b56851-1da6-4d8c-a2c2-5fe8069a6313)
