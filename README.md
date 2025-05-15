@@ -2,8 +2,8 @@
 ## Team Members
 | Team Member  | Role |
 | ------------- | ------------- |
-| William Gilmore  | Tech support  |
-| Nelson Yeh  | Gambling support  |
+| William Gilmore  | Tech Support  |
+| Nelson Yeh  | Gambling Support  |
 | Michael Chen  | Moral Support  |
 
 ## Project Description
@@ -18,14 +18,14 @@ This project implements a real-time, table-side assistant for the game of Blackj
 ## System Integration
 | Component  | Description |
 | ------------- | ------------- |
-| ESP32-CAM Module  | Takes pictures of player and dealer cards  |
-| Buzzer  | Provides audio cue to signal player when to hit via buzzer   |
-| NRF52840 DK  | Receives and processes pictures taken by ESP32-CAM  |
-| Disco L475 IOT01  | Base node for running Edge Impulse ML algorithm and transmitting sensor data to web dashboard   |
-| Thingy52  | Sensor Node for temperature, humidity, light and gas |
-| HTS221  | Temperature and Humidity Sensor   |
-| BH1745 | Light Sensor |
-| CCS811 | CO2 Gas Sensor |
+| ESP32-CAM Module  | Takes pictures of player and dealer cards.  |
+| Buzzer  | Provides audio cue to signal player when to hit. |
+| NRF52840 DK  | Receives and processes pictures taken by ESP32-CAM. |
+| Disco L475 IOT01  | Base node for running Edge Impulse ML algorithm and transmitting sensor data to web dashboard. |
+| Thingy52  | Sensor Node for temperature, humidity, light and gas. All sensor readings read as hex values. |
+| HTS221  | Temperature and Humidity Sensor. Read as hex value.   |
+| BH1745 | Light Sensor. Read as hex value. |
+| CCS811 | CO2 Gas Sensor. Read as hex value. |
 
 ## Wireless Network Communications
 ![image](https://github.com/user-attachments/assets/e3b56851-1da6-4d8c-a2c2-5fe8069a6313)
