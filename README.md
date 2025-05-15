@@ -27,6 +27,10 @@ This project implements a real-time, table-side assistant for the game of Blackj
 | BH1745 | Light Sensor. Read as hex value. |
 | CCS811 | CO2 Gas Sensor. Read as hex value. |
 
+A Zephyr Command Line Interface is implemented to signal the system when a new round is dealt or cards are reshuffled.
+<tyche n> signals the new round has started. This resets the current round scores and recommended move.
+<tyche r> signals cards have been reshuffled. This resets the card count as well current round scores and recommended move.
+
 ## Wireless Network Communications
 ![image](https://github.com/user-attachments/assets/e3b56851-1da6-4d8c-a2c2-5fe8069a6313)
 
@@ -39,7 +43,7 @@ Wi-Fi is used to send data packets from base node to the dashboard
 # Deliverables and Key Performance Indicators
 | Deliverable  | Description | KPI |
 | ------------- | ------------- | ------------- |
-| Sensor Data Detection and Processing   | Fully functional embedded node that interfaces with the ESP32-CAM to detect the card value, card suit, the recipient of the card (dealer or player) and the timestamp of when the card was dealt. The Thingy52 detects room ambiance via temperature, light and CO2 gas levels.   | Room sensor readings register every 5 seconds with 1% missing/error rate over 1-hour runtime. Camera readings register in intervals of 1 min with 2% missing/error rate over longer hours of runtime. |
+| Sensor Data Detection and Processing   | Fully functional embedded node that interfaces with the ESP32-CAM to detect the card value, card suit, the recipient of the card (dealer or player) and the timestamp of when the card was dealt. The Thingy52 detects room ambiance via temperature, light and CO2 gas levels.   | Room sensor readings register every 10 seconds with 1% missing/error rate over 1-hour runtime. Camera readings register in intervals of 1 min with 2% missing/error rate over longer hours of runtime. |
 | Player Action Recommendation via Machine Learning   | Real time computation of the player and dealer’s hands using reinforcement learning techniques such as Q-Learning or DQN to learn the optimal betting and playing strategy on the current card count. | System provides optimal betting and playing advice within 8 seconds of the cards being dealt.  |
 | Alert System with Speaker   | Prediction of player success rate in the current hand being 85% or higher enables speakers to alert player with custom audio cues that the player should continue.  | Audio alerts generate 1 - 2 seconds after the system has computed the optimal move. |
 | Wireless Communication System   | Bluetooth Low Energy (BLE) communication protocol implemented between sensor nodes reading from ESP32-CAM and base node processing the machine learning algorithm with approximately 0.5s latency. Base node communicates with the web dashboard using Wi-Fi protocol to send JSON packets.    | 90 – 95% successful data advertising and scanning in a multi-node network. Minimise packet loss to less than 5%.  |
