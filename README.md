@@ -20,8 +20,8 @@ This project implements a real-time, table-side assistant for the game of Blackj
 | ------------- | ------------- |
 | ESP32-CAM Module  | Takes pictures of player and dealer cards.  |
 | Buzzer  | Provides audio cue to signal player when to hit. |
-| NRF52840 DK  | Receives and processes pictures taken by ESP32-CAM. |
-| Disco L475 IOT01  | Base node for running Edge Impulse ML algorithm and transmitting sensor data to web dashboard. |
+| NRF52840 DK  | Receives and processes pictures taken by ESP32-CAM. NRF runs Edge Impulse ML algorithm and sends card value and suit to base node. |
+| Disco L475 IOT01  | Base node for calculating probability of success and transmits sensor data, card value and suit, and recommended move to web dashboard. |
 | Thingy52  | Sensor Node for temperature, humidity, light and gas. All sensor readings read as hex values. |
 | HTS221  | Temperature and Humidity Sensor. Read as hex value.   |
 | BH1745 | Light Sensor. Read as hex value. |
