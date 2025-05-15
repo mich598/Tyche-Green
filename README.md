@@ -10,7 +10,7 @@
 This project implements a real-time, table-side assistant for the game of Blackjack that uses reinforcement learning to advise players on the optimal moves for each round. It employs two ESP32-CAM modules controlled by NRF52840dk boards positioned at the dealer and player vantage points respectively to visually detect and identify dealt cards, which continuously updates a running card count. This data is streamed to a TagoIO web dashboard, which also displays recommended actions based on the changing game state. The recommended actions are computed on the base node (Disco L475 IOT01) via reinforcement learning techniques such as Q Learning and DQNs. An onboard speaker/buzzer provides audio cues when the odds are favourable. To ensure accurate operation of the camera and maintain player alertness, the sensor node (Nordic Thingy52) monitors room conditions such as temperature, humidity, light, and CO2 levels which helps preserve the player’s cognitive function and ensure sufficient lighting for the cameras. 
 
 ## Project Block Diagram
-![image](https://github.com/user-attachments/assets/87cdbfeb-d8ee-4ac2-a332-8b66fef8f37f)
+![image](https://github.com/user-attachments/assets/af490c34-4c66-480c-bec6-a27e4b8eb2e4)
 
 ## DIKW Pyramid Abstraction
 ![image](https://github.com/user-attachments/assets/830e9277-04fd-432b-acf1-f704a81c85f3)
