@@ -13,7 +13,7 @@ This project implements a real-time, table-side assistant for the game of Blackj
 ![image](https://github.com/user-attachments/assets/87cdbfeb-d8ee-4ac2-a332-8b66fef8f37f)
 
 ## DIKW Pyramid Abstraction
-![image](https://github.com/user-attachments/assets/7fbd11a6-4e95-4919-a335-da528c64c624)
+![image](https://github.com/user-attachments/assets/830e9277-04fd-432b-acf1-f704a81c85f3)
 
 ## System Integration
 | Component  | Description |
