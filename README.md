@@ -4,7 +4,7 @@
 | ------------- | ------------- |
 | William Gilmore  | Tech support  |
 | Nelson Yeh  | Gambling expert  |
-| Michael Chen  | Morale Support  |
+| Michael Chen  | Moral Support  |
 
 ## Project Description
 This project implements a real-time, table-side assistant for the game of Blackjack that uses reinforcement learning to advise players on the optimal moves for each round. It employs two ESP32-CAM modules controlled by NRF52840dk boards positioned at the dealer and player vantage points respectively to visually detect and identify dealt cards, which continuously updates a running card count. This data is streamed to a TagoIO web dashboard, which also displays recommended actions based on the changing game state. The recommended actions are computed on the base node (Disco L475 IOT01) via reinforcement learning techniques such as Q Learning and DQNs. An onboard speaker/buzzer provides audio cues when the odds are favourable. To ensure accurate operation of the camera and maintain player alertness, the sensor node (Nordic Thingy52) monitors room conditions such as temperature, humidity, light, and CO2 levels which helps preserve the player’s cognitive function and ensure sufficient lighting for the cameras. 
