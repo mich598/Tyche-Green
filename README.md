@@ -38,7 +38,7 @@ A Zephyr Command Line Interface is implemented to signal the system when a new r
 
 Message format from Base node to Dashboard: JSON  
 
-Bluetooth low energy (BLE) will be used to advertise packets from sensor node to the base node 
+Bluetooth low energy (BLE) will be used to advertise packets from sensor node to the base node. The protocol used is GATT which provides seamless interoperability between different BLE devices
 
 Wi-Fi is used to send data packets from base node to the dashboard  
 
