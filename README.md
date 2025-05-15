@@ -3,7 +3,7 @@
 | Team Member  | Role |
 | ------------- | ------------- |
 | William Gilmore  | Tech support  |
-| Nelson Yeh  | Gambling expert  |
+| Nelson Yeh  | Gambling support  |
 | Michael Chen  | Moral Support  |
 
 ## Project Description
