@@ -1,13 +1,13 @@
-# EmbedJack
+# EmbedJack (Tyche-Green)
 ## Team Members
-William Gilmore
-
-Nelson Yeh
-
-Michael Chen
+| Team Member  | Role |
+| ------------- | ------------- |
+| William Gilmore  | Tech support  |
+| Nelson Yeh  | Gambling expert  |
+| Michael Chen  | Takes pictures  |
 
 ## Project Description
-This project implements a real-time, table-side assistant for the game of Blackjack that uses reinforcement learning to advise players on the optimal moves for each round. It employs two ESP32-CAM modules controlled by NRF52840dk boards positioned at the dealer and player vantage points respectively to visually detect and identify dealt cards, which continuously updates a running card count. This data is streamed to a TagoIO web dashboard, which also displays recommended actions based on the changing game state. The recommended actions are computed on the base node (Disco L475 IOT01) via reinforcement learning techniques such as Q Learning and DQNs. An onboard speaker provides audio cues (“money cashing out e.g. cha-ching") when the odds are favourable. To ensure accurate operation of the camera and maintain player alertness, the sensor node (Nordic Thingy52) monitors room conditions such as temperature, humidity, light, and CO2 levels which helps preserve the player’s cognitive function and ensure sufficient lighting for the cameras. 
+This project implements a real-time, table-side assistant for the game of Blackjack that uses reinforcement learning to advise players on the optimal moves for each round. It employs two ESP32-CAM modules controlled by NRF52840dk boards positioned at the dealer and player vantage points respectively to visually detect and identify dealt cards, which continuously updates a running card count. This data is streamed to a TagoIO web dashboard, which also displays recommended actions based on the changing game state. The recommended actions are computed on the base node (Disco L475 IOT01) via reinforcement learning techniques such as Q Learning and DQNs. An onboard speaker/buzzer provides audio cues when the odds are favourable. To ensure accurate operation of the camera and maintain player alertness, the sensor node (Nordic Thingy52) monitors room conditions such as temperature, humidity, light, and CO2 levels which helps preserve the player’s cognitive function and ensure sufficient lighting for the cameras. 
 
 ## Project Block Diagram
 ![image](https://github.com/user-attachments/assets/87cdbfeb-d8ee-4ac2-a332-8b66fef8f37f)
@@ -19,20 +19,20 @@ This project implements a real-time, table-side assistant for the game of Blackj
 | Component  | Description |
 | ------------- | ------------- |
 | ESP32-CAM Module  | Takes pictures of player and dealer cards  |
+| Buzzer  | Provides audio cue to signal player when to hit via buzzer   |
 | NRF52840 DK  | Receives and processes pictures taken by ESP32-CAM  |
-| Thingy52  | Sensor Node for temperature, light and gas |
-| Disco L475 IOT01  | Base node for running ML algorithm and transmitting sensor data to web dashboard   |
-| Speaker Module  | Provides audio cue to signal player when to hit   |
+| Disco L475 IOT01  | Base node for running Edge Impulse ML algorithm and transmitting sensor data to web dashboard   |
+| Thingy52  | Sensor Node for temperature, humidity, light and gas |
 | HTS221  | Temperature and Humidity Sensor   |
-| LDR Ambient Light Sensor | Light Sensor |
-| CO2 and TVOC Sensor | Gas Sensor |
+| BH1745 | Light Sensor |
+| CCS811 | CO2 Gas Sensor |
 
 ## Wireless Network Communications
 ![image](https://github.com/user-attachments/assets/e3b56851-1da6-4d8c-a2c2-5fe8069a6313)
 
-Message format: JSON  
+Message format from Base node to Dashboard: JSON  
 
-Bluetooth low energy (BLE) will be used to communicate between sensor nodes and base node 
+Bluetooth low energy (BLE) will be used to advertise packets from sensor node to the base node 
 
 Wi-Fi is used to send data packets from base node to the dashboard  
 
