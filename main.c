@@ -16,6 +16,7 @@
 #include <zephyr/net/http/client.h>
 #include "wifi.h"
 #include "sockets.h"
+#include "sensors.h"
 #include "filesys.h"
 
 #include <stdio.h>
@@ -24,6 +25,13 @@
 #include <time.h>
 #include <stddef.h>
 #include <math.h>
+
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/fs/fs.h>
+#include <zephyr/fs/littlefs.h>
+#include <zephyr/storage/flash_map.h>
+#include <zephyr/shell/shell.h>
 
 /* Get the device tree node alias for data and clock */
 #define P9813_DI_NODE DT_ALIAS(datapin)
@@ -75,6 +83,10 @@ int is_dealer = 0;
 int dealer_val = 0;
 int player_val = 0;
 int player_total = 0;
+
+// Sensor Readings
+int temperature = 0;
+int humidity = 0;
 
 /* TagoIO HTTP context and logging */
 LOG_MODULE_REGISTER(tagoio_http_post, CONFIG_TAGOIO_HTTP_POST_LOG_LEVEL);
@@ -172,6 +184,13 @@ static void scan_cb(const bt_addr_le_t *addr, int8_t rssi,
         return;
     }
 
+    if (ad->data[9] == 0x27) {
+        temperature = (int) ad->data[ad->len - 5];
+        humidity = (int) ad->data[ad->len - 3];
+        // printk("Temperature %d\n", temperature);
+        // printk("Humidity %d\n", humidity);
+    }
+
     // Read card from Camera
     if (ad->data[9] == 0x18) {
         if (is_player) {
@@ -250,66 +269,65 @@ int cmd_round(const struct shell *shell, size_t argc, char **argv) {
 }
 SHELL_CMD_REGISTER(new, NULL, "Reset round/card", cmd_round);
 
-// int cmd_log(const struct shell *shell, size_t argc, char **argv)
-// {
-//     if (argc > 1 && strcmp(argv[0], "logging") == 0) {
-//         char fname[MAX_PATH_LEN];
-//         int rc;
+int cmd_log(const struct shell *shell, size_t argc, char **argv)
+{
+    if (argc > 1 && strcmp(argv[0], "logging") == 0) {
+        char fname[MAX_PATH_LEN];
+        int rc;
 
-//         char* player_buf = k_malloc(20);
-//         sprintf(player_buf, "%d", player_val);
+        char* player_buf = k_malloc(20);
+        sprintf(player_buf, "%d", player_val);
 
-//         // Mount LittleFS System
-//         rc = littlefs_mount(mountpoint);
-//         if (rc < 0) {
-//             k_free(player_buf);
-//             return rc;
-//         }
+        // Mount LittleFS System
+        rc = littlefs_mount(mountpoint);
+        if (rc < 0) {
+            k_free(player_buf);
+            return rc;
+        }
 
-//         // List Files in Directory            
-//         if (strcmp(argv[1], "ls") == 0) {
-//             rc = lsdir(mountpoint->mnt_point);
-//             if (rc < 0) {
-//                 shell_print(shell, "FAIL: lsdir %s: %d\n", mountpoint->mnt_point, rc);
-//                 goto out;
-//             }   
-//         }
+        // List Files in Directory            
+        if (strcmp(argv[1], "ls") == 0) {
+            rc = lsdir(mountpoint->mnt_point);
+            if (rc < 0) {
+                shell_print(shell, "FAIL: lsdir %s: %d\n", mountpoint->mnt_point, rc);
+                goto out;
+            }   
+        }
 
-//         if (strcmp(argv[1], "w") == 0) {
-//             // Construct File Paths
-//             snprintf(fname, sizeof(fname), "%s/%s", mountpoint->mnt_point, argv[2]);
-//             // Write player card value into filesystem
-//             rc = write_sensor_value(fname, player_buf);
-//             if (rc == 0) {
-//                 printk("Player card %s stored successfully\n", player_buf);
-//             }
-//             k_free(player_buf);
-//         }
+        if (strcmp(argv[1], "w") == 0) {
+            // Construct File Paths
+            snprintf(fname, sizeof(fname), "%s/%s", mountpoint->mnt_point, argv[2]);
+            // Write player card value into filesystem
+            rc = write_sensor_value(fname, player_buf);
+            if (rc == 0) {
+                printk("Player card %s stored successfully\n", player_buf);
+            }
+            k_free(player_buf);
+        }
 
-//         if (strcmp(argv[1], "r") == 0) {
-//             rc = read_sensor_value(fname, player_buf, MAX_SENSOR_VAL_LEN);
-//             if (rc == 0) {
-//                 printk("Player card %s read successfully\n", player_buf);
-//             } else {
-//                 printk("Unable to read file\n");
-//             }
-//             k_free(player_buf);
-//         }
-//     out:
-//         rc = fs_unmount(mountpoint);
-//         shell_print(shell, "%s unmount: %d\n", mountpoint->mnt_point, rc);
-//         return 0;
-//     }
+        if (strcmp(argv[1], "r") == 0) {
+            rc = read_sensor_value(fname, player_buf, MAX_SENSOR_VAL_LEN);
+            if (rc == 0) {
+                printk("Player card %s read successfully\n", player_buf);
+            } else {
+                printk("Unable to read file\n");
+            }
+            k_free(player_buf);
+        }
+    out:
+        rc = fs_unmount(mountpoint);
+        shell_print(shell, "%s unmount: %d\n", mountpoint->mnt_point, rc);
+        return 0;
+    }
 
-//     return 0;
-// }
-// SHELL_CMD_REGISTER(logging, NULL, "Log sensor output", cmd_log);
+    return 0;
+}
+SHELL_CMD_REGISTER(logging, NULL, "Log sensor output", cmd_log);
 
 /* Format and send player_total and dealer_val to TagoIO */
 static void response_cb(struct http_response *rsp,
                         enum http_final_call final_data,
                         void *user_data) {
-    /* ignore for brevity */
 }
 
 static int collect_data(void) {
@@ -318,9 +336,11 @@ static int collect_data(void) {
              "["
              "{\"variable\":\"player\",\"value\":%d},"
              "{\"variable\":\"dealer\",\"value\":%d},"
-             "{\"variable\":\"move\",\"value\":%d}"
+             "{\"variable\":\"move\",\"value\":%d},"
+             "{\"variable\":\"temperature\",\"value\":%d},"
+             "{\"variable\":\"humidity\",\"value\":%d}"
              "]",
-             player_total, dealer_val, hit_flag);
+             player_total, dealer_val, hit_flag, temperature, humidity);
     LOG_INF("Player total: %d", player_total);
     LOG_INF("Dealer value: %d", dealer_val);
     LOG_INF("Recommended Move: %d", hit_flag);
@@ -381,6 +401,7 @@ int main(void) {
         return 0;
     }
     observer_start();
+
     while (1) {
         next_turn();
         k_sleep(K_SECONDS(5));
