@@ -1,0 +1,54 @@
+
+
+&lps22hb_press {
+    status = "okay";
+};
+
+&hts221 {
+    status = "okay";
+};
+
+
+
+&ccs811 {
+    status = "okay";
+};
+
+&led0 {
+    status = "okay";
+};
+
+&button0 {
+    status = "okay";
+};
+
+&led1 {
+    status = "okay";
+};
+
+&led2 {
+    status = "okay";
+};
+
+
+&i2c0 {
+    bh1749: bh1749@38 {
+        compatible = "rohm,bh1749";
+        reg = <0x38>;
+        status = "okay";
+        vin-supply = < &vdd_pwr >;
+    };
+};
+
+/ {
+    aliases {
+        lps22hbpress = &lps22hb_press;
+        hts221 = &hts221;
+        ccs811 = &ccs811;
+        led0 = &led0;
+        led1 = &led1;
+        led2 = &led2;
+        button0 = &button0;
+        bh1749 = &bh1749;
+    };
+};
