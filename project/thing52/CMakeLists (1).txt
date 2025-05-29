@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: Apache-2.0
+
+cmake_minimum_required(VERSION 3.20.0)
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+project(DT2)
+
+if(CONFIG_BOARD_NRF52840DK_NRF52840)
+    message("Building for nRF52840 DK")
+    set(OVERLAY_CONFIG "nrf52840dk_nrf52840.overlay")
+    target_sources(app PRIVATE main.c bh1749.c)
+elseif(CONFIG_BOARD_THINGY52_NRF52832)
+    message("Building for Thingy:52")
+    target_sources(app PRIVATE main.c)
+    set(OVERLAY_CONFIG "thingy52_nrf52832.overlay")
+else()
+    message(FATAL_ERROR "Unsupported board!")
+endif()
