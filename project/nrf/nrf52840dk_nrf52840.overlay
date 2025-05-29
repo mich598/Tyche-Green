@@ -1,0 +1,13 @@
+
+
+&uart1 {
+    status = "okay";
+    current-speed = <115200>;
+};
+
+
+/{
+    aliases {
+        uart1 = &uart1;
+    };
+};
